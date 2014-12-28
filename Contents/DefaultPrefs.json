@@ -1,0 +1,14 @@
+[
+	{
+		"id":"Port",
+		"label":"Port to use for http",
+		"type":"text",
+		"default":"31400"
+	},
+	{
+		"id":"Routes",
+		"label":"Accepted document routes, in the following format: '/myChannel' : '/Path/to/Channel/httpDir', '/myChannel2' : '/Path/to/second/Channel/httpDir'",
+		"type":"text",
+		"default":""
+	}
+]
