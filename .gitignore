@@ -1,54 +1,53 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
+#############
+## Windows detritus
+#############
 
-# C extensions
-*.so
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
 
-# Distribution / packaging
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Mac junk
+.DS_Store
+
+# Microsoft SyncToy
+SyncToy_*.dat
+
+#############
+## Python
+#############
+
+*.py[co]
+
+# Packages
 *.egg
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+*.egg-info
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
 
 # Installer logs
 pip-log.txt
-pip-delete-this-directory.txt
 
 # Unit test / coverage reports
-htmlcov/
-.tox/
 .coverage
-.cache
-nosetests.xml
-coverage.xml
+.tox
 
-# Translations
+#Translations
 *.mo
-*.pot
 
-# Django stuff:
-*.log
+#Mr Developer
+.mr.developer.cfg
 
-# Sphinx documentation
-docs/_build/
+*.*~
 
-# PyBuilder
-target/
