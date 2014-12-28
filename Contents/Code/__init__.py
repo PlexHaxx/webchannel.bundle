@@ -17,11 +17,11 @@ from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 import threading
 import ast
 
-VERSION = ' V0.0.0.1'
-NAME = 'WebChannels'
+VERSION = ' V0.0.0.2'
+NAME = 'WebChannel'
 ART = 'art-default.jpg'
 ICON = 'icon-WebChannel.png'
-PREFIX = '/applications/WebChannels'
+PREFIX = '/utils/webchannel'
 APPGUID = '7608cf36-742b-11e4-8b39-00089be320f4'
 DESCRIPTION = 'Acts as a webserver for other channels/bundles'
 ROUTES = {}
@@ -51,18 +51,43 @@ def Start():
 def GetRoutes():
 	global ROUTES	
 	ROUTES = ast.literal_eval('{' + Prefs['Routes'] + '}')
+	Log.Debug('Serving the following document roots: %s' %(ROUTES))
+
+####################################################################################################
+# Add Routes to valid document roots
+####################################################################################################
+@route(PREFIX + '/AddRoutes')
+def AddRoutes(CreateRoot):
+	global ROUTES
+	Log.Debug('Need to add a new document root as %s' %(CreateRoot))
+	myRoutes = Prefs['Routes'] + ',' + CreateRoot
+
+	ROUTES = ast.literal_eval('{' + myRoutes + '}')
+
+	Log.Debug('Routes are now %s' %(ROUTES)) 
+
+
+	print 'GED Prefs', myRoutes
+
+
+	return
+
 
 ####################################################################################################
 # Main menu
 ####################################################################################################
 @handler(PREFIX, NAME, thumb=ICON, art=ART)
 @route(PREFIX + '/MainMenu')
-def MainMenu():
+def MainMenu(CreateRoot=''):
 	Log.Debug("**********  Starting MainMenu  **********")
 	oc = ObjectContainer()
 	try:
-		oc.add(DirectoryObject(key=Callback(backgroundScan, title=title, sectiontype=sectiontype, key=key, random=time.clock(), paths=',,,'.join(paths)), title='Look in section "' + title + '"', summary='Look for unmatched files in "' + title + '"'))
-		print 'ged'
+		if CreateRoot=='':
+			oc.add(DirectoryObject(key=Callback(MainMenu), title="Please use the preferences (little gear icon) to alter settings of this bundle"))
+			print 'ged'
+		else:
+			print 'Need to add a new rootdoc'
+			AddRoutes(CreateRoot)
 	except:
 		Log.Critical("Exception happened in MainMenu")
 		raise
