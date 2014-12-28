@@ -7,7 +7,7 @@
 	},
 	{
 		"id":"Routes",
-		"label":"Accepted document routes, in the following format: '/myChannel' : '/Path/to/Channel/httpDir', '/myChannel2' : '/Path/to/second/Channel/httpDir'",
+		"label":"Accepted document routes, in the following format, seperated with a comma: '/myChannel' : '/Path/to/Channel/httpDir', '/myChannel2' : '/Path/to/second/Channel/httpDir'",
 		"type":"text",
 		"default":""
 	}
