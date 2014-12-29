@@ -16,6 +16,7 @@ from SimpleHTTPServer import SimpleHTTPRequestHandler
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 import threading
 import ast
+import time
 
 VERSION = ' V0.0.0.2'
 NAME = 'WebChannel'
@@ -25,6 +26,7 @@ PREFIX = '/utils/webchannel'
 APPGUID = '7608cf36-742b-11e4-8b39-00089be320f4'
 DESCRIPTION = 'Acts as a webserver for other channels/bundles'
 ROUTES = {}
+bDoRunHTTP = True
 
 ####################################################################################################
 # Start function
@@ -50,8 +52,11 @@ def Start():
 @route(PREFIX + '/GetRoutes')
 def GetRoutes():
 	global ROUTES	
-	ROUTES = ast.literal_eval('{' + Prefs['Routes'] + '}')
-	Log.Debug('Serving the following document roots: %s' %(ROUTES))
+	if Prefs['Routes'] is not None:
+		ROUTES = ast.literal_eval('{' + Prefs['Routes'] + '}')
+		Log.Debug('Serving the following document roots: %s' %(ROUTES))
+	else:
+		Log.Debug('No document roots has been entered')
 
 ####################################################################################################
 # Add Routes to valid document roots
@@ -116,7 +121,7 @@ class WebServer(HTTPServer):
 	def start(self):
 		Log.Debug('* Starting httpd deamon')
 		self.server_port = int(Prefs['Port'])
-		self.server = HTTPServer((self.server_address, self.server_port), self.HandlerClass)	
+		self.server = HTTPServer((self.server_address, self.server_port), self.HandlerClass)
 		thread = threading.Thread(target = self.server.serve_forever)
 		thread.deamon = True
 		thread.start()
@@ -127,11 +132,13 @@ class WebServer(HTTPServer):
 	def stop(self):
 		print 'Stopping httpd deamon.....Please wait'
 		Log.Debug('Shutting down httpd deamon')
+		self.server.socket.close()
 		self.server.shutdown()
 
 	def restart(self):
 		Log.Debug('Restarting WebServer')
 		self.stop()
+		time.sleep(10)
 		self.start()
 
 #***********************************************************************
